@@ -1,0 +1,49 @@
+export interface User {
+  id: string;
+  name: string;
+  username: string;
+  avatar: string;
+  bio: string;
+  followersCount: number;
+  followingCount: number;
+  postsCount: number;
+  isVerified: boolean;
+  joinedDate: string;
+}
+
+export interface Community {
+  id: string;
+  name: string;
+  slug: string;
+  membersCount: number;
+}
+
+export interface Post {
+  id: string;
+  title: string;
+  content: string;
+  image?: string;
+  author: User;
+  community: Community;
+  createdAt: string;
+  lovesCount: number;
+  commentsCount: number;
+  isLoved: boolean;
+  isBookmarked: boolean;
+  lovedBy: User[];
+}
+
+export interface Comment {
+  id: string;
+  content: string;
+  author: User;
+  createdAt: string;
+  lovesCount: number;
+  isLoved: boolean;
+}
+
+export interface FeedResponse {
+  posts: Post[];
+  hasNextPage: boolean;
+  nextCursor?: string;
+}

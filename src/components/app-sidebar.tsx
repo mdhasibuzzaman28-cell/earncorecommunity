@@ -38,31 +38,31 @@ const data = {
   navMain: [
     {
       title: "Communities",
-      url: "#",
+      url: "/dashboard/feed",
       items: [
         {
           title: "ChatGPT",
-          url: "#",
+          url: "/dashboard/feed",
           icon: chatgpt,
         },
         {
           title: "claudeAI",
-          url: "#",
+          url: "/dashboard/feed",
           icon: claude,
         },
         {
           title: "Mid Journey",
-          url: "#",
+          url: "/dashboard/feed",
           icon: midjourney,
         },
         {
           title: "DeepSeek",
-          url: "#",
+          url: "/dashboard/feed",
           icon: deepseek,
         },
         {
           title: "Gork",
-          url: "#",
+          url: "/dashboard/feed",
           icon: gork,
         },
       ],
