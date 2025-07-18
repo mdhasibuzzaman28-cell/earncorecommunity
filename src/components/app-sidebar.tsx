@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, icons } from "lucide-react";
 
 import { SearchForm } from "@/components/search-form";
 import { VersionSwitcher } from "@/components/version-switcher";
@@ -21,143 +21,60 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { SearchDialouge } from "./search-dialouge";
+import { isAbsolute } from "path";
+
+import Image from "next/image";
+//Icons Import
+import chatgpt from "../assets/icons/chatgpt.png";
+import claude from "../assets/icons/claude.png";
+import deepseek from "../assets/icons/deepseek.png";
+import gork from "../assets/icons/gork.png";
+import midjourney from "../assets/icons/midjourney.png";
+import hiringGame from "../assets/icons/chess-piece.png";
 
 // This is sample data.
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Getting Started",
+      title: "Communities",
       url: "#",
       items: [
         {
-          title: "Installation",
+          title: "ChatGPT",
           url: "#",
+          icon: chatgpt,
         },
         {
-          title: "Project Structure",
+          title: "claudeAI",
           url: "#",
+          icon: claude,
+        },
+        {
+          title: "Mid Journey",
+          url: "#",
+          icon: midjourney,
+        },
+        {
+          title: "DeepSeek",
+          url: "#",
+          icon: deepseek,
+        },
+        {
+          title: "Gork",
+          url: "#",
+          icon: gork,
         },
       ],
     },
     {
-      title: "Building Your Application",
+      title: "Courses",
       url: "#",
       items: [
         {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#",
+          title: "Master The Hiring Game",
+          url: "/dashboard/course/1",
+          icon: hiringGame,
         },
       ],
     },
@@ -184,8 +101,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 asChild
                 className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
               >
-                <CollapsibleTrigger>
-                  {item.title}{" "}
+                <CollapsibleTrigger className="font-bold!">
+                  {item.title}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
@@ -194,8 +111,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenu>
                     {item.items.map((item) => (
                       <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
+                        {/* <SidebarMenuButton asChild isActive={item.isActive}> */}
+                        <SidebarMenuButton asChild>
+                          <div>
+                            {item.icon && (
+                              <Image
+                                width={20}
+                                src={item.icon}
+                                alt="logo"
+                              ></Image>
+                            )}
+                            <a href={item.url}>{item.title}</a>
+                          </div>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}
