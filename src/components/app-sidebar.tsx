@@ -31,6 +31,7 @@ import deepseek from "../assets/icons/deepseek.png";
 import gork from "../assets/icons/gork.png";
 import midjourney from "../assets/icons/midjourney.png";
 import hiringGame from "../assets/icons/chess-piece.png";
+import Link from "next/link";
 
 // This is sample data.
 const data = {
@@ -121,7 +122,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 alt="logo"
                               ></Image>
                             )}
-                            <a href={item.url}>{item.title}</a>
+                            <Link href={item.url}>{item.title}</Link>
                           </div>
                         </SidebarMenuButton>
                       </SidebarMenuItem>

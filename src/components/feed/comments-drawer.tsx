@@ -1,19 +1,27 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { formatDistanceToNow } from 'date-fns';
-import { Send, Smile, Heart } from 'lucide-react';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useGetPostCommentsQuery, useAddCommentMutation } from '@/store/features/feed/feedApi';
-import { cn } from '@/lib/utils';
-import dynamic from 'next/dynamic';
+import { useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { Send, Smile, Heart } from "lucide-react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  useGetPostCommentsQuery,
+  useAddCommentMutation,
+} from "@/store/features/feed/feedApi";
+import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
 
-const EmojiPicker = dynamic(() => import('emoji-picker-react'), { ssr: false });
+const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
 interface CommentsDrawerProps {
   postId: string;
@@ -21,8 +29,12 @@ interface CommentsDrawerProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function CommentsDrawer({ postId, open, onOpenChange }: CommentsDrawerProps) {
-  const [newComment, setNewComment] = useState('');
+export function CommentsDrawer({
+  postId,
+  open,
+  onOpenChange,
+}: CommentsDrawerProps) {
+  const [newComment, setNewComment] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { data: comments, isLoading } = useGetPostCommentsQuery(postId, {
     skip: !open,
@@ -31,17 +43,17 @@ export function CommentsDrawer({ postId, open, onOpenChange }: CommentsDrawerPro
 
   const handleSubmitComment = async () => {
     if (!newComment.trim()) return;
-    
+
     try {
       await addComment({ postId, content: newComment }).unwrap();
-      setNewComment('');
+      setNewComment("");
     } catch (error) {
-      console.error('Failed to add comment:', error);
+      console.error("Failed to add comment:", error);
     }
   };
 
   const handleEmojiSelect = (emoji: any) => {
-    setNewComment(prev => prev + emoji.emoji);
+    setNewComment((prev) => prev + emoji.emoji);
     setShowEmojiPicker(false);
   };
 
@@ -51,7 +63,7 @@ export function CommentsDrawer({ postId, open, onOpenChange }: CommentsDrawerPro
         <DrawerHeader>
           <DrawerTitle>Comments</DrawerTitle>
         </DrawerHeader>
-        
+
         <div className="flex flex-col flex-1 min-h-0">
           {/* Comments List */}
           <ScrollArea className="flex-1 px-6">
@@ -73,18 +85,29 @@ export function CommentsDrawer({ postId, open, onOpenChange }: CommentsDrawerPro
                 {comments?.map((comment) => (
                   <div key={comment.id} className="flex space-x-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={comment.author.avatar} alt={comment.author.name} />
-                      <AvatarFallback className="text-xs">{comment.author.name.charAt(0)}</AvatarFallback>
+                      <AvatarImage
+                        src={comment.author.avatar}
+                        alt={comment.author.name}
+                      />
+                      <AvatarFallback className="text-xs">
+                        {comment.author.name.charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 space-y-1">
-                      <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="bg-muted rounded-lg p-3">
                         <div className="flex items-center space-x-2 mb-1">
-                          <span className="font-semibold text-sm">{comment.author.name}</span>
-                          <span className="text-xs text-gray-500">
-                            {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                          <span className="font-semibold text-sm text-foreground">
+                            {comment.author.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {formatDistanceToNow(new Date(comment.createdAt), {
+                              addSuffix: true,
+                            })}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-700">{comment.content}</p>
+                        <p className="text-sm text-foreground">
+                          {comment.content}
+                        </p>
                       </div>
                       <div className="flex items-center space-x-3 px-3">
                         <Button
@@ -92,13 +115,24 @@ export function CommentsDrawer({ postId, open, onOpenChange }: CommentsDrawerPro
                           size="sm"
                           className={cn(
                             "h-6 px-2 text-xs",
-                            comment.isLoved ? "text-red-600" : "text-gray-500"
+                            comment.isLoved
+                              ? "text-red-600 dark:text-red-400"
+                              : "text-muted-foreground"
                           )}
                         >
-                          <Heart className={cn("h-3 w-3 mr-1", comment.isLoved && "fill-current")} />
+                          <Heart
+                            className={cn(
+                              "h-3 w-3 mr-1",
+                              comment.isLoved && "fill-current"
+                            )}
+                          />
                           {comment.lovesCount > 0 && comment.lovesCount}
                         </Button>
-                        <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-gray-500">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 px-2 text-xs text-muted-foreground"
+                        >
                           Reply
                         </Button>
                       </div>
@@ -110,7 +144,7 @@ export function CommentsDrawer({ postId, open, onOpenChange }: CommentsDrawerPro
           </ScrollArea>
 
           {/* Comment Input */}
-          <div className="border-t border-gray-200 p-4 space-y-3">
+          <div className="border-t border-border p-4 space-y-3">
             <div className="relative">
               <Textarea
                 placeholder="Write a comment..."

@@ -1,8 +1,8 @@
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function PostSkeleton() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+    <div className="bg-card rounded-lg border border-border p-6 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
@@ -18,7 +18,7 @@ export function PostSkeleton() {
           <Skeleton className="h-8 w-8 rounded" />
         </div>
       </div>
-      
+
       {/* Content */}
       <div className="space-y-3">
         <Skeleton className="h-6 w-3/4" />
@@ -26,10 +26,10 @@ export function PostSkeleton() {
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-2/3" />
       </div>
-      
+
       {/* Image placeholder */}
       <Skeleton className="h-64 w-full rounded-lg" />
-      
+
       {/* Footer */}
       <div className="flex items-center justify-between pt-4">
         <div className="flex space-x-4">
