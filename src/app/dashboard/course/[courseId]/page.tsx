@@ -23,11 +23,14 @@ export async function generateStaticParams() {
   // }));
 }
 
-export default function CoursePage({
+export default async function CoursePage({
   params,
 }: {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }) {
+  // Await the params since it's now a Promise in Next.js 15
+  const { courseId } = await params;
+
   // Pass the courseId to the client component
-  return <CoursePageClient courseId={params.courseId} />;
+  return <CoursePageClient courseId={courseId} />;
 }
