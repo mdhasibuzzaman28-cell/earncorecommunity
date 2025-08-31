@@ -37,7 +37,10 @@ export function SearchDialouge() {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <SearchForm />
+          <div className="flex items-center gap-2 px-6 py-2 border rounded-full">
+            <Search className="text-muted-foreground w-5 h-5" />
+            <p className="text-muted-foreground text-sm">Search</p>
+          </div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[495px]">
           <div className="flex items-center gap-2 mt-2 border-b-1">
@@ -66,7 +69,10 @@ export function SearchDialouge() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <SearchForm />
+        <div className="flex items-center gap-2 px-4 py-2 border rounded-full">
+          <Search className="text-muted-foreground w-5 h-5" />
+          <p className="text-muted-foreground text-sm">Search</p>
+        </div>
       </DrawerTrigger>
       <DrawerContent>
         <div className="p-4">

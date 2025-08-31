@@ -55,7 +55,7 @@ export default function RootLayout({
               </div>
               {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
             </header>
-            <div className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+            <div className="bg-background sticky top-0 flex h-16 shrink-0 items-center z-50 gap-2 border-b px-4">
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">

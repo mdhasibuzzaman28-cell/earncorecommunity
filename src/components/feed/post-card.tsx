@@ -134,13 +134,13 @@ export function PostCard({ post }: PostCardProps) {
 
         {/* Footer */}
         <div className="flex items-center justify-between p-6 pt-4 border-t border-border">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center ">
             <Button
               variant="ghost"
               size="sm"
               onClick={handleLoveClick}
               className={cn(
-                "flex items-center space-x-2 hover:bg-red-50 dark:hover:bg-red-950/20",
+                "flex items-center  hover:bg-red-50 dark:hover:bg-red-950/20",
                 post.isLoved
                   ? "text-red-600 dark:text-red-400"
                   : "text-muted-foreground"
@@ -149,25 +149,20 @@ export function PostCard({ post }: PostCardProps) {
               <Heart
                 className={cn("h-5 w-5", post.isLoved && "fill-current")}
               />
-              <span className="text-sm font-medium">Love</span>
+              {/* <span className="text-sm font-medium">Love</span> */}
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleCommentsClick}
-              className="flex items-center space-x-2 text-muted-foreground hover:bg-blue-50 dark:hover:bg-blue-950/20 hover:text-blue-600 dark:hover:text-blue-400"
+              className="flex items-center  text-muted-foreground hover:bg-blue-50 dark:hover:bg-blue-950/20 hover:text-blue-600 dark:hover:text-blue-400"
             >
               <MessageCircle className="h-5 w-5" />
-              <span className="text-sm font-medium">Comment</span>
+              {/* <span className="text-sm font-medium">Comment</span> */}
             </Button>
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-              <span>{post.lovesCount} loves</span>
-              <span>•</span>
-              <span>{post.commentsCount} comments</span>
-            </div>
             <div className="flex -space-x-1">
               {post.lovedBy.slice(0, 3).map((user, index) => (
                 <Avatar key={user.id} className="h-6 w-6 border-2 border-card">
@@ -177,6 +172,11 @@ export function PostCard({ post }: PostCardProps) {
                   </AvatarFallback>
                 </Avatar>
               ))}
+            </div>
+            <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+              <span>{post.lovesCount} loves</span>
+              <span>•</span>
+              <span>{post.commentsCount} comments</span>
             </div>
           </div>
         </div>
