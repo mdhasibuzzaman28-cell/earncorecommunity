@@ -8,6 +8,7 @@ import {
   Bookmark,
   Share2,
   MoreHorizontal,
+  BadgeCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -51,7 +52,7 @@ export function PostCard({ post }: PostCardProps) {
     <>
       <article className="bg-card rounded-lg border border-border hover:border-accent transition-colors duration-200">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 pb-4">
+        <div className="flex items-center justify-between p-4 pb-4">
           <button
             onClick={handleProfileClick}
             className="flex items-center space-x-3 hover:bg-accent/50 rounded-lg p-2 -m-2 transition-colors duration-200"
@@ -66,9 +67,7 @@ export function PostCard({ post }: PostCardProps) {
                   {post.author.name}
                 </span>
                 {post.author.isVerified && (
-                  <Badge variant="secondary" className="text-xs">
-                    Verified
-                  </Badge>
+                  <BadgeCheck className="h-6 w-6 text-primary" />
                 )}
               </div>
               <p className="text-sm text-muted-foreground">
@@ -80,16 +79,14 @@ export function PostCard({ post }: PostCardProps) {
             </div>
           </button>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             <Button
               variant="ghost"
               size="sm"
               onClick={handleBookmarkClick}
               className={cn(
                 "h-8 w-8 p-0",
-                post.isBookmarked
-                  ? "text-blue-600 dark:text-blue-400"
-                  : "text-muted-foreground"
+                post.isBookmarked ? "text-primary " : "text-muted-foreground"
               )}
             >
               <Bookmark
@@ -114,7 +111,7 @@ export function PostCard({ post }: PostCardProps) {
         </div>
 
         {/* Content */}
-        <div className="px-6 pb-4">
+        <div className="px-4 pb-4">
           <h2 className="text-xl font-bold text-foreground mb-3 leading-tight">
             {post.title}
           </h2>
@@ -133,7 +130,7 @@ export function PostCard({ post }: PostCardProps) {
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 pt-4 border-t border-border">
+        <div className="flex items-center justify-between p-2 pt-4 border-t border-border">
           <div className="flex items-center ">
             <Button
               variant="ghost"

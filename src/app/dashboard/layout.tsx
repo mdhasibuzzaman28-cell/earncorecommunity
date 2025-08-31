@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppSidebar } from "@/components/app-sidebar";
-import { SearchDialouge } from "@/components/search-dialouge";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,12 +9,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import TopRightMenu from "@/components/top-right-menu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,10 +49,7 @@ export default function RootLayout({
               <div>
                 <SidebarTrigger className="-ml-1" />
               </div>
-              <div>
-                <SearchDialouge />
-              </div>
-              {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
+              <TopRightMenu />
             </header>
             <div className="bg-background sticky top-0 flex h-16 shrink-0 items-center z-50 gap-2 border-b px-4">
               <Breadcrumb>
