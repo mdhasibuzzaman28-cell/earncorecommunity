@@ -1,7 +1,7 @@
 export interface User {
-  id: string;
-  name: string;
+  _id: string;
   username: string;
+  fullName: string;
   avatar: string;
   bio: string;
   followersCount: number;
@@ -23,7 +23,6 @@ export interface Post {
   title: string;
   content: string;
   image?: string;
-  author: User;
   owner: User;
   community: Community;
   createdAt: string;

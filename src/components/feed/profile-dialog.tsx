@@ -15,20 +15,20 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetUserProfileQuery } from "@/store/features/feed/feedApi";
 
 interface ProfileDialogProps {
-  userId: string;
+  username: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export function ProfileDialog({
-  userId,
+  username,
   open,
   onOpenChange,
 }: ProfileDialogProps) {
-  const { data: user, isLoading } = useGetUserProfileQuery(userId, {
+  const { data: user, isLoading } = useGetUserProfileQuery(username, {
     skip: !open,
   });
-
+  console.log("user", user);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -59,16 +59,20 @@ export function ProfileDialog({
           <div className="space-y-6">
             {/* Profile Header */}
             <div className="flex items-start space-x-4">
-              <Avatar className="h-16 w-16">
-                <AvatarImage src={user.avatar} alt={user.name} />
+              <Avatar className="h-16 w-16 ">
+                <AvatarImage
+                  className="object-cover"
+                  src={user?.avatar}
+                  alt={user?.fullName}
+                />
                 <AvatarFallback className="text-lg">
-                  {user.name.charAt(0)}
+                  {user?.fullName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 space-y-2">
                 <div className="flex items-center space-x-2">
                   <h3 className="text-lg font-bold text-foreground">
-                    {user.name}
+                    {user.fullName}
                   </h3>
                   {user.isVerified && (
                     <Badge variant="secondary" className="text-xs">
@@ -124,9 +128,9 @@ export function ProfileDialog({
               <Calendar className="h-4 w-4" />
               <span>
                 Joined{" "}
-                {formatDistanceToNow(new Date(user.joinedDate), {
+                {/* {formatDistanceToNow(new Date(user.joinedDate), {
                   addSuffix: true,
-                })}
+                })} */}
               </span>
             </div>
           </div>

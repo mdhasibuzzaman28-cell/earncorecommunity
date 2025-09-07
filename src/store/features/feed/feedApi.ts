@@ -36,9 +36,9 @@ export const feedApi = createApi({
     }),
 
     getUserProfile: builder.query<User, string>({
-      queryFn: async (userId) => {
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        return { data: generateDummyUser(userId) };
+      query: (username) => `users/c/${username}`,
+      transformResponse: (response: any) => {
+        return response.data;
       },
       providesTags: ["User"],
     }),
