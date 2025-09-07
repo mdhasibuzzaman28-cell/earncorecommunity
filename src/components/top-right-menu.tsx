@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { SearchDialouge } from "@/components/search-dialouge";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import { useMediaQuery } from "@custom-react-hooks/use-media-query";
 import { Button } from "./ui/button";
 import Link from "next/link";

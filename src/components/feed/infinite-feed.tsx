@@ -14,13 +14,13 @@ export function InfiniteFeed() {
 
   const { data, isLoading, isFetching, hasNextPage, fetchNextPage } =
     useGetFeedQuery(
-      { limit: 10 },
+      { cursor: "1", limit: 10 },
       {
         selectFromResult: (result) => ({
           ...result,
           hasNextPage: result.data?.hasNextPage ?? false,
           fetchNextPage: () => {
-            if (result.data?.hasNextPage && result.data?.nextCursor) {
+            if (result.data?.hasNextPage && result.data?.nextPage) {
               // result.refetch();
             }
           },
@@ -44,7 +44,8 @@ export function InfiniteFeed() {
     );
   }
 
-  const posts = data?.posts || [];
+  const posts = data?.docs || [];
+  console.log("posts", posts);
 
   return (
     <div className="space-y-6">

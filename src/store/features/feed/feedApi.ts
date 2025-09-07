@@ -1,90 +1,84 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Post, Comment, FeedResponse, User } from './types';
-import { generateDummyPosts, generateDummyComments, generateDummyUser } from './dummyData';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Post, Comment, FeedResponse, User } from "./types";
+import {
+  generateDummyPosts,
+  generateDummyComments,
+  generateDummyUser,
+} from "./dummyData";
 
 export const feedApi = createApi({
-  reducerPath: 'feedApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
-  tagTypes: ['Post', 'Comment', 'User'],
+  reducerPath: "feedApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/v1/" }),
+  tagTypes: ["Post", "Comment", "User"],
   endpoints: (builder) => ({
     getFeed: builder.query<FeedResponse, { cursor?: string; limit?: number }>({
-      queryFn: async ({ cursor = '0', limit = 10 }) => {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        const startIndex = parseInt(cursor);
-        const posts = generateDummyPosts(limit, startIndex);
-        
-        return {
-          data: {
-            posts,
-            hasNextPage: startIndex + limit < 100, // Assume 100 total posts
-            nextCursor: (startIndex + limit).toString(),
-          },
-        };
+      query: ({ cursor = "1", limit = 10 }) => ({
+        url: "posts",
+        params: {
+          page: cursor,
+          limit: limit,
+        },
+      }),
+      transformResponse: (response: any) => {
+        console.log("getFeed API Response:", response);
+        // Return the data directly since your API wraps it in { data: {...} }
+        return response.data;
       },
-      providesTags: ['Post'],
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      merge: (currentCache, newItems) => {
-        if (newItems.posts.length === 0) return currentCache;
-        return {
-          ...newItems,
-          posts: [...currentCache.posts, ...newItems.posts],
-        };
-      },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg?.cursor !== previousArg?.cursor;
-      },
+      providesTags: ["Post"],
     }),
-    
+
     getPostComments: builder.query<Comment[], string>({
       queryFn: async (postId) => {
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         return { data: generateDummyComments(postId) };
       },
-      providesTags: ['Comment'],
+      providesTags: ["Comment"],
     }),
-    
+
     getUserProfile: builder.query<User, string>({
       queryFn: async (userId) => {
-        await new Promise(resolve => setTimeout(resolve, 300));
+        await new Promise((resolve) => setTimeout(resolve, 300));
         return { data: generateDummyUser(userId) };
       },
-      providesTags: ['User'],
+      providesTags: ["User"],
     }),
-    
-    togglePostLove: builder.mutation<void, { postId: string; isLoved: boolean }>({
+
+    togglePostLove: builder.mutation<
+      void,
+      { postId: string; isLoved: boolean }
+    >({
       queryFn: async () => {
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
         return { data: undefined };
       },
-      invalidatesTags: ['Post'],
+      invalidatesTags: ["Post"],
     }),
-    
-    toggleBookmark: builder.mutation<void, { postId: string; isBookmarked: boolean }>({
+
+    toggleBookmark: builder.mutation<
+      void,
+      { postId: string; isBookmarked: boolean }
+    >({
       queryFn: async () => {
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
         return { data: undefined };
       },
-      invalidatesTags: ['Post'],
+      invalidatesTags: ["Post"],
     }),
-    
+
     addComment: builder.mutation<Comment, { postId: string; content: string }>({
       queryFn: async ({ content }) => {
-        await new Promise(resolve => setTimeout(resolve, 300));
+        await new Promise((resolve) => setTimeout(resolve, 300));
         const newComment: Comment = {
           id: Date.now().toString(),
           content,
-          author: generateDummyUser('current-user'),
+          author: generateDummyUser("current-user"),
           createdAt: new Date().toISOString(),
           lovesCount: 0,
           isLoved: false,
         };
         return { data: newComment };
       },
-      invalidatesTags: ['Comment', 'Post'],
+      invalidatesTags: ["Comment", "Post"],
     }),
   }),
 });
@@ -97,3 +91,27 @@ export const {
   useToggleBookmarkMutation,
   useAddCommentMutation,
 } = feedApi;
+
+//  getFeed: builder.query<FeedResponse, { cursor?: string; limit?: number }>({
+//       query: ({ cursor = "1", limit = 10 }) => ({
+//         url: "posts",
+//         params: {
+//           page: cursor,
+//           limit: limit,
+//         },
+//       }),
+//       providesTags: ["Post"],
+//       serializeQueryArgs: ({ endpointName }) => {
+//         return endpointName;
+//       },
+//       merge: (currentCache, newItems) => {
+//         if (newItems?.data?.docs.length === 0) return currentCache;
+//         return {
+//           ...newItems,
+//           posts: [...(currentCache.data?.docs || []), ...newItems.data?.docs],
+//         };
+//       },
+//       forceRefetch({ currentArg, previousArg }) {
+//         return currentArg?.cursor !== previousArg?.cursor;
+//       },
+//     }),

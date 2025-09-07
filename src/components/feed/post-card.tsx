@@ -58,20 +58,20 @@ export function PostCard({ post }: PostCardProps) {
             className="flex items-center space-x-3 hover:bg-accent/50 rounded-lg p-2 -m-2 transition-colors duration-200"
           >
             <Avatar className="h-10 w-10">
-              <AvatarImage src={post.author.avatar} alt={post.author.name} />
-              <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
+              <AvatarImage src={post?.owner?.avatar} alt={post?.author?.name} />
+              <AvatarFallback>{post?.author?.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="text-left">
               <div className="flex items-center space-x-2">
                 <span className="font-semibold text-foreground">
-                  {post.author.name}
+                  {post?.author?.name}
                 </span>
-                {post.author.isVerified && (
+                {post?.author?.isVerified && (
                   <BadgeCheck className="h-6 w-6 text-primary" />
                 )}
               </div>
               <p className="text-sm text-muted-foreground">
-                in {post.community.name} •{" "}
+                in {post?.community?.name} •{" "}
                 {formatDistanceToNow(new Date(post.createdAt), {
                   addSuffix: true,
                 })}
@@ -161,9 +161,9 @@ export function PostCard({ post }: PostCardProps) {
 
           <div className="flex items-center space-x-3">
             <div className="flex -space-x-1">
-              {post.lovedBy.slice(0, 3).map((user, index) => (
-                <Avatar key={user.id} className="h-6 w-6 border-2 border-card">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+              {post?.lovedBy?.slice(0, 3).map((user, index) => (
+                <Avatar key={user?.id} className="h-6 w-6 border-2 border-card">
+                  <AvatarImage src={user?.avatar} alt={user?.name} />
                   <AvatarFallback className="text-xs">
                     {user.name.charAt(0)}
                   </AvatarFallback>
@@ -180,13 +180,13 @@ export function PostCard({ post }: PostCardProps) {
       </article>
 
       <ProfileDialog
-        userId={post.author.id}
+        userId={post?.author?.id}
         open={isProfileDialogOpen}
         onOpenChange={setIsProfileDialogOpen}
       />
 
       <CommentsDrawer
-        postId={post.id}
+        postId={post?.id}
         open={isCommentsDrawerOpen}
         onOpenChange={setIsCommentsDrawerOpen}
       />

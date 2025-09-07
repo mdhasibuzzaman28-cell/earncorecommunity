@@ -24,6 +24,7 @@ export interface Post {
   content: string;
   image?: string;
   author: User;
+  owner: User;
   community: Community;
   createdAt: string;
   lovesCount: number;
@@ -43,7 +44,14 @@ export interface Comment {
 }
 
 export interface FeedResponse {
-  posts: Post[];
+  docs: Post[];
+  totalDocs: number;
+  limit: number;
+  totalPages: number;
+  page: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
   hasNextPage: boolean;
-  nextCursor?: string;
+  prevPage: number | null;
+  nextPage: number | null;
 }

@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { ChevronRight, icons } from "lucide-react";
 
@@ -32,42 +33,43 @@ import gork from "../assets/icons/gork.png";
 import midjourney from "../assets/icons/midjourney.png";
 import hiringGame from "../assets/icons/chess-piece.png";
 import Link from "next/link";
+import { useGetAllCommunitiesQuery } from "@/store/features/community/communityApi";
 
 // This is sample data.
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
-    {
-      title: "Communities",
-      url: "/dashboard/feed",
-      items: [
-        {
-          title: "ChatGPT",
-          url: "/dashboard/feed",
-          icon: chatgpt,
-        },
-        {
-          title: "claudeAI",
-          url: "/dashboard/feed",
-          icon: claude,
-        },
-        {
-          title: "Mid Journey",
-          url: "/dashboard/feed",
-          icon: midjourney,
-        },
-        {
-          title: "DeepSeek",
-          url: "/dashboard/feed",
-          icon: deepseek,
-        },
-        {
-          title: "Gork",
-          url: "/dashboard/feed",
-          icon: gork,
-        },
-      ],
-    },
+    // {
+    //   title: "Communities",
+    //   url: "/dashboard/feed",
+    //   items: [
+    //     {
+    //       title: "ChatGPT",
+    //       url: "/dashboard/feed",
+    //       icon: chatgpt,
+    //     },
+    //     {
+    //       title: "claudeAI",
+    //       url: "/dashboard/feed",
+    //       icon: claude,
+    //     },
+    //     {
+    //       title: "Mid Journey",
+    //       url: "/dashboard/feed",
+    //       icon: midjourney,
+    //     },
+    //     {
+    //       title: "DeepSeek",
+    //       url: "/dashboard/feed",
+    //       icon: deepseek,
+    //     },
+    //     {
+    //       title: "Gork",
+    //       url: "/dashboard/feed",
+    //       icon: gork,
+    //     },
+    //   ],
+    // },
     {
       title: "Courses",
       url: "#",
@@ -82,7 +84,10 @@ const data = {
   ],
 };
 
+const makeLink = (href: string) => href.toLowerCase().replaceAll(" ", "-");
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: communities = [] } = useGetAllCommunitiesQuery();
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -97,6 +102,46 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             defaultOpen
             className="group/collapsible"
           >
+            <SidebarGroup>
+              <SidebarGroupLabel
+                asChild
+                className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
+              >
+                <CollapsibleTrigger className="font-bold!">
+                  Communities
+                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {communities.map((item) => (
+                      <SidebarMenuItem key={item?._id}>
+                        <SidebarMenuButton asChild>
+                          <Link
+                            href={`/dashboard/feed/${makeLink(item?.name)}`}
+                          >
+                            <div className="flex items-center gap-2">
+                              {item?.icon && (
+                                <img
+                                  width={20}
+                                  src={
+                                    item?.icon ||
+                                    "http://res.cloudinary.com/mdhasib/image/upload/v1757133279/jhjgy8r5uuellcbqmts7.png"
+                                  }
+                                  alt="logo"
+                                ></img>
+                              )}
+                              {item?.name}
+                            </div>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </SidebarGroup>
             <SidebarGroup>
               <SidebarGroupLabel
                 asChild
