@@ -3,19 +3,24 @@ import lmsReducer from "../lms/store/lms.slice";
 import { lmsApi } from "../lms/store/lms.api";
 import { feedApi } from "./features/feed/feedApi";
 import { communityApi } from "./features/community/communityApi";
+import authSlice from "./features/authentication/authSlice";
+import { authApi } from "./features/authentication/authApi";
 
 export const store = configureStore({
   reducer: {
+    auth: authSlice,
     lms: lmsReducer,
     [lmsApi.reducerPath]: lmsApi.reducer,
     [feedApi.reducerPath]: feedApi.reducer,
     [communityApi.reducerPath]: communityApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       lmsApi.middleware,
       feedApi.middleware,
-      communityApi.middleware
+      communityApi.middleware,
+      authApi.middleware
     ),
 });
 

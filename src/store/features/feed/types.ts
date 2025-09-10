@@ -17,7 +17,11 @@ export interface Community {
   slug: string;
   membersCount: number;
 }
-
+export interface engagementMetrics {
+  views: number;
+  likes: number;
+  comments: number;
+}
 export interface Post {
   id: string;
   title: string;
@@ -28,6 +32,7 @@ export interface Post {
   createdAt: string;
   lovesCount: number;
   commentsCount: number;
+  engagementMetrics: engagementMetrics;
   isLoved: boolean;
   isBookmarked: boolean;
   lovedBy: User[];

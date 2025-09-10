@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,11 +12,46 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { appConfig } from "@/utils/config";
 import Link from "next/link";
+import { useState } from "react";
+import {
+  useGetCurrentUserQuery,
+  useLoginMutation,
+} from "@/store/features/authentication/authApi";
+import { getCookie } from "@/utils/cookies";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const auth = useSelector((state: any) => state.auth);
+  console.log("auth", auth);
+  const {
+    data: currentUser,
+    error: currentUserError,
+    isLoading: isLoadingUser,
+    refetch: refetchUser,
+  } = useGetCurrentUserQuery(undefined, {
+    skip: !getCookie("accessToken") || auth.isAuthenticated,
+  });
+  const [login, { isLoading: isLoggingIn, error: loginError }] =
+    useLoginMutation();
+
+  const router = useRouter();
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await login({ email, password });
+      router.push("/dashboard/feed");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -24,7 +60,7 @@ export function LoginForm({
           <CardDescription>Login to {appConfig.COMMUNITY_NAME}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleLogin}>
             <div className="grid gap-6">
               <div className="grid gap-6">
                 <div className="grid gap-3">
@@ -33,6 +69,8 @@ export function LoginForm({
                     id="email"
                     type="email"
                     placeholder="m@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
@@ -46,7 +84,13 @@ export function LoginForm({
                       Forgot your password?
                     </a>
                   </div>
-                  <Input id="password" type="password" required />
+                  <Input
+                    id="password"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
                 <Button type="submit" className="w-full">
                   Login

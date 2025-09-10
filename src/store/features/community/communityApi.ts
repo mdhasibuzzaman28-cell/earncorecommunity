@@ -3,7 +3,7 @@ import { CommunityTypes } from "./types";
 
 export const communityApi = createApi({
   reducerPath: "communityApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/v1/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
   endpoints: (builder) => ({
     getAllCommunities: builder.query<CommunityTypes[], void>({
       query: () => "community",

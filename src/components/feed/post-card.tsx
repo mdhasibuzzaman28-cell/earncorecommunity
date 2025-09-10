@@ -21,6 +21,7 @@ import {
   useToggleBookmarkMutation,
 } from "@/store/features/feed/feedApi";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "../ui/skeleton";
 
 interface PostCardProps {
   post: Post;
@@ -148,7 +149,10 @@ export function PostCard({ post }: PostCardProps) {
               )}
             >
               <Heart
-                className={cn("h-5 w-5", post.isLoved && "fill-current")}
+                className={cn(
+                  "h-5 w-5",
+                  post.isLoved && "fill-current text-red-600"
+                )}
               />
               {/* <span className="text-sm font-medium">Love</span> */}
             </Button>
@@ -178,9 +182,9 @@ export function PostCard({ post }: PostCardProps) {
               ))}
             </div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-              <span>{post.lovesCount} loves</span>
+              <span>{post?.engagementMetrics?.likes} loves</span>
               <span>•</span>
-              <span>{post.commentsCount} comments</span>
+              <span>{post?.engagementMetrics?.comments} comments</span>
             </div>
           </div>
         </div>
