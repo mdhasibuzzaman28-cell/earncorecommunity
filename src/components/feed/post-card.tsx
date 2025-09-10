@@ -48,6 +48,26 @@ export function PostCard({ post }: PostCardProps) {
   const handleCommentsClick = () => {
     setIsCommentsDrawerOpen(true);
   };
+  const formatContent = (content: String) => {
+    if (!content) return "";
+
+    return (
+      content
+        // Convert **bold** to <strong>
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        // Convert *italic* to <em>
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        // Convert line breaks to <br>
+        .replace(/\n/g, "<br>")
+        // Convert bullet points (lines starting with *)
+        .replace(/^(\s*)\* (.+)/gm, "$1• $2")
+        // Convert > blockquotes
+        .replace(
+          /^>\s*(.+)/gm,
+          '<blockquote class="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-2">$1</blockquote>'
+        )
+    );
+  };
 
   return (
     <>
@@ -120,7 +140,10 @@ export function PostCard({ post }: PostCardProps) {
           <h2 className="text-xl font-bold text-foreground mb-3 leading-tight">
             {post.title}
           </h2>
-          <p className="text-foreground leading-relaxed">{post.content}</p>
+          <div
+            className="prose max-w-none leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
+          />
         </div>
 
         {/* Image */}
