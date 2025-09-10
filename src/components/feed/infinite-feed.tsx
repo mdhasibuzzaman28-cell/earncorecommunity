@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { PostCard } from "./post-card";
@@ -25,10 +24,12 @@ export function InfiniteFeed() {
   };
 
   useEffect(() => {
-    if (inView && !isFetching && data?.docs?.length > 0) {
+    // Safe check for data.docs existence and length
+    const docsLength = data?.docs?.length ?? 0;
+
+    if (inView && !isFetching && docsLength > 0) {
       // Check if we have more posts to potentially load
-      // This is a simple check - you might want to adjust based on your API response
-      const hasMorePosts = data.docs.length >= limit;
+      const hasMorePosts = docsLength >= limit;
 
       if (hasMorePosts) {
         loadMore();
@@ -56,6 +57,7 @@ export function InfiniteFeed() {
 
   const posts = data?.docs || [];
   const hasMorePosts = posts.length >= limit;
+
   console.log("posts", posts, "limit", limit);
 
   return (
@@ -76,10 +78,9 @@ export function InfiniteFeed() {
       </div>
 
       {!hasMorePosts && posts.length > 0 && (
-        <div className="text-center py-2 text-muted-foreground">
-          {/* <p>You've reached the end of the feed!</p> */}
+        <div className="text-center py-1 text-muted-foreground">
           <div className="flex items-center justify-center">
-            <Loader className="animate-spin" />
+            <Loader className="mr-2  animate-spin" />
           </div>
         </div>
       )}
