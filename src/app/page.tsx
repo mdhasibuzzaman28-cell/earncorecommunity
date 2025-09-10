@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <Link href="/dashboard">
+      <Link href="/dashboard/feed">
         <Button>Go to Dashboard</Button>
       </Link>
     </div>
