@@ -9,7 +9,13 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-const FeedPage = ({ params }: { params: { community: string } }) => {
+const FeedPage = async ({
+  params,
+}: {
+  params: Promise<{ community: string }>;
+}) => {
+  const { community } = await params;
+
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-background sticky top-0 flex h-16 shrink-0 items-center z-50 gap-2 border-b px-4">
@@ -20,7 +26,7 @@ const FeedPage = ({ params }: { params: { community: string } }) => {
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>{params.community}</BreadcrumbPage>
+              <BreadcrumbPage>{community}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
