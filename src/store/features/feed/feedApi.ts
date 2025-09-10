@@ -8,7 +8,7 @@ import {
 
 export const feedApi = createApi({
   reducerPath: "feedApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/v1/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
   tagTypes: ["Post", "Comment", "User"],
   endpoints: (builder) => ({
     getFeed: builder.query<FeedResponse, { cursor?: string; limit?: number }>({
