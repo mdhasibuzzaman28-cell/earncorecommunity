@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { ChevronRight, icons } from "lucide-react";
+import { ChevronRight, MicIcon as icons } from "lucide-react";
 
 import { SearchForm } from "@/components/search-form";
 import { VersionSwitcher } from "@/components/version-switcher";
